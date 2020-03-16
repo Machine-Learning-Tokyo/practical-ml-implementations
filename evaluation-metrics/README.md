@@ -20,7 +20,7 @@ Because, knowing how to evaluate the trained model would help us to know our the
     - it is an error (aka, Type-II). Should have been predicted as `positive`
  
 ## Accuracy
-- <img src="https://latex.codecogs.com/svg.latex?\Large&space;Accuracy = \frac{TP + TN}{TP + TN +FP +FN} = \frac{all \enspace correct \enspace predictions}{total \enspace number \enspace of \enspace samples/predictions}" title=""/>
+- $<img src="https://latex.codecogs.com/svg.latex?\Large&space;Accuracy = \frac{TP + TN}{TP + TN +FP +FN} = \frac{all \enspace correct \enspace predictions}{total \enspace number \enspace of \enspace samples/predictions}" title=""/>$
 - the ratio of correctly classified samples to the total number of samples.
 - (# of correct predictions) / (total # of predictions)
 - mostly used in classification problems. However, one may need additional evaluation metrics (precision, recall, f1-score) depending on the problem.
