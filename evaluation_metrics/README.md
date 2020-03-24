@@ -1,6 +1,6 @@
 # Evaluation metrics for ML algorithms
 A proper evaluation metric for a machine learning algorithm is as important as data preparation and model training. 
-Because, knowing how to evaluate the trained model would help us to know our the model will perform as expected in production.
+Because, knowing how to evaluate the trained model would help us to assess the trained model, hence choose proper model.
 
  
 ## TP, TN, FP, FN
