@@ -24,8 +24,22 @@
 
 
 ## Evaluation metrics
-- Great [repository](https://github.com/rafaelpadilla/Object-Detection-Metrics) for object detection metrics
-- IoU: Intersection over Union. IoU measures how well two bounding boxes overlapped. IoU threshold defines if the detected bounding box detection is valid (`True Positive`) or not (`False Positive`). Usually, in most object detection challenges, by default `IoU threshold=0.5`. But this may change by custom projects. 
+- Great [repository](https://github.com/rafaelpadilla/Object-Detection-Metrics) for object detection metrics by [Rafael Padilla](https://www.linkedin.com/in/rafael-padilla/)
+- **IoU**: Intersection over Union. IoU measures how well two bounding boxes overlapped. IoU threshold defines if the detected bounding box detection is valid (`True Positive`) or not (`False Positive`). Usually, in most object detection challenges, by default `IoU threshold=0.5`. But this may change by custom projects. 
+
+<p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou.png" width="400"></p>
+
+- **Precision**: specifies how precise the detection algorithm has detected the relevant objects. In other words, what ratio of detections are, indeed, correct.   
+
+<p align="center"> 
+<img src="http://latex.codecogs.com/gif.latex?Precision%20%3D%20%5Cfrac%7BTP%7D%7BTP&plus;FP%7D%3D%5Cfrac%7BTP%7D%7B%5Ctext%7Ball%20detections%7D%7D">
+</p>
+
+- **Recall**: specifies the hit rate of the detection algorithm. In other words, what ratio of ground truth objects could be catched by the detection algorithm.   
+
+<p align="center"> 
+<img src="http://latex.codecogs.com/gif.latex?Recall%20%3D%20%5Cfrac%7BTP%7D%7BTP&plus;FN%7D%3D%5Cfrac%7BTP%7D%7B%5Ctext%7Ball%20ground%20truths%7D%7D">
+</p>
 
 ## Benchmark datasets/comptetitions:
 - [PASCAL VOC Challenge](http://host.robots.ox.ac.uk/pascal/VOC/)
