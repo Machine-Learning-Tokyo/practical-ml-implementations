@@ -52,9 +52,14 @@ Building blocks for object detection evaluation metrics:
 Object detection evaluation metrics:
 - **Precision Recall Curve**: is a great assessment tool to measure the performance of object detection model or algorithm. 
 The precision recall curve is the curve plotting the precision and recall values by changing the confidence scores (remember that precision and recall values change by confidence score). 
-    - the performance of detector (for particular class) is considered good if its precision does not descrease much as recall increases. This means, independent of a confidence threshold (whether it is `0.9`, `0.7` or `0.3`) the precision and recall will stay at high values. It is worth to mention that this is an ideal case. In practive, however, it is a trade-off; we have to make a decision whether precision or recall is more important for us.
+    - the performance of detector (for particular class) is considered good if its precision does not descrease much as recall increases. This means, independent of a confidence threshold (whether it is `0.9`, `0.7` or `0.3`) the precision and recall will stay at high values. It is worth to mention that this is not the case in a real object detection tasks... 
     - the another indicator of good detector is the number of False Positives (smaller is better, i.e. no false alarm), which defines the **Precision**. While performing good in terms of the precision, if a detector can find all ground truth objects, which defines the **Recall**, the detector can be considered as "good".
     - The term **"good"** is a subjective metric. There is a trade-off between high precision and high recall. If our implementation has to perform better in terms of precision, then possibly we have to keep the **confidence score** higher (to keep the precision at higher values as much as possible). If our implementation has to perform better in terms of the recall, then it is ok to decrease the **confidence score** lower (to increase the recall value). How can be sure which **confidence score** we have to choose given the precision/recall requirements. The **Precision Recall Curve** helps us to decide on **confidence score**.  
+
+Here is some sample precision-recall-curves and we will which confidence score would be more meaningful after analysing the curve:
+
+
+
 
 A poor object detector needs to increase the number of detected objects (increasing False Positives = lower precision) in order to retrieve all ground truth objects (high recall). That's why the Precision x Recall curve usually starts with high precision values, decreasing as recall increases. You can see an example of the Prevision x Recall curve in the next topic (Average Precision). This kind of curve is used by the PASCAL VOC 2012 challenge and is available in our implementation.
 
@@ -73,7 +78,7 @@ A poor object detector needs to increase the number of detected objects (increas
 - you can play with IoU threshold according to your needs. For instance, if the localization is more important for a particular project, then it may be better to increase the IoU threshold (`IoU threshold = 0.8`), Likewise, if the localization is not that much crucial for the implementation, then it is possible to decrease the thresholds (`IoU threshold = 0.3`).
 - if your team leader/project manager/client asks you to implement an object detection algorithm, please be sure to ask them:
     - whether the **precision** or **recall** is more important for them. Let me guess, you would get the answer: "Oh, both of them are important for us!" almost in 90% cases :laughing:. If you get this answer, then go ahead with your own trading offs, i.e. choose the appropriate **confidence score** according to the **precision recall curve**.   
-    - how precise should be the detected bounding boxes. Again, almost everytime you would get the answer "Oh, it is always better to fit 100%". If you are lucky, your client/PM/team leader knows what he/she needs, it would be much easier for you to define the **IoU threshold**.
+    - how precise should be the detected bounding boxes. Again, almost everytime you would get the answer "Oh, it is always better to fit 100%" :laughing:. If you are lucky, your client/PM/team leader knows what he/she needs, it would be much easier for you to define the **IoU threshold**. Otherwise, ho ahead with the default value: `IoU thresohld=0.5`.
     
 # Object Detection implementations:
 ## Face detection from scratch
