@@ -71,7 +71,10 @@ A poor object detector needs to increase the number of detected objects (increas
 
 ## Practical hints:
 - you can play with IoU threshold according to your needs. For instance, if the localization is more important for a particular project, then it may be better to increase the IoU threshold (`IoU threshold = 0.8`), Likewise, if the localization is not that much crucial for the implementation, then it is possible to decrease the thresholds (`IoU threshold = 0.3`).
-- if your team leader/project manager/client asks you to implement an object detection algorithm, please be sure to ask them whether the **precision** or **recall** is more important for them. Let me guess, you would get the answer: "Oh, both of them are important for us!" :laughing:
+- if your team leader/project manager/client asks you to implement an object detection algorithm, please be sure to ask them:
+    - whether the **precision** or **recall** is more important for them. Let me guess, you would get the answer: "Oh, both of them are important for us!" almost in 90% cases :laughing:. If you get this answer, then go ahead with your own trading offs, i.e. choose the appropriate **confidence score** according to the **precision recall curve**.   
+    - how precise should be the detected bounding boxes. Again, almost everytime you would get the answer "Oh, it is always better to fit 100%". If you are lucky, your client/PM/team leader knows what he/she needs, it would be much easier for you to define the **IoU threshold**.
+    
 # Object Detection implementations:
 ## Face detection from scratch
 
