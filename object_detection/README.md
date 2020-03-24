@@ -29,7 +29,7 @@
 Building blocks for object detection evaluation metrics:
 - **IoU**: Intersection over Union. IoU measures how well two bounding boxes overlapped. IoU threshold defines if the detected bounding box detection is valid (`True Positive`) or not (`False Positive`). Usually, in most object detection challenges, by default `IoU threshold=0.5`. But this may change by custom projects. 
 
-<p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou.png" width="400"></p>
+<p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou.png" width="400"> <em>[pyimagesearch.com](https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/) </em> </p>
 
 
 <p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou_examples.png" width="400"></p>
@@ -51,7 +51,10 @@ Building blocks for object detection evaluation metrics:
 
 Object detection evaluation metrics:
 - **Precision Recall Curve**: is a great assessment tool to measure the performance of object detection model or algorithm. 
-The Precision x Recall curve is a good way to evaluate the performance of an object detector as the confidence is changed by plotting a curve for each object class. An object detector of a particular class is considered good if its precision stays high as recall increases, which means that if you vary the confidence threshold, the precision and recall will still be high. Another way to identify a good object detector is to look for a detector that can identify only relevant objects (0 False Positives = high precision), finding all ground truth objects (0 False Negatives = high recall).
+The precision recall curve is the curve plotting the precision and recall values by changing the confidence scores (remember that precision and recall values change by confidence score). 
+    - the performance of detector (for particular class) is considered good if its precision does not descrease much as recall increases. This means, independent of a confidence threshold (whether it is `0.9`, `0.7` or `0.3`) the precision and recall will stay at high values. It is worth to mention that this is an ideal case. In practive, however, it is a trade-off; we have to make a decision whether precision or recall is more important for us.
+    - the another indicator of good detector is the number of False Positives (smaller is better, i.e. no false alarm), which defines the **Precision**. While performing good in terms of the precision, if a detector can find all ground truth objects, which defines the **Recall**, the detector can be considered as "good".
+    - The term **"good"** is a subjective metric. There is a trade-off between high precision and high recall. If our implementation has to perform better in terms of precision, then possibly we have to keep the **confidence score** higher (to keep the precision at higher values as much as possible). If our implementation has to perform better in terms of the recall, then it is ok to decrease the **confidence score** lower (to increase the recall value). How can be sure which **confidence score** we have to choose given the precision/recall requirements. The **Precision Recall Curve** helps us to decide on **confidence score**.  
 
 A poor object detector needs to increase the number of detected objects (increasing False Positives = lower precision) in order to retrieve all ground truth objects (high recall). That's why the Precision x Recall curve usually starts with high precision values, decreasing as recall increases. You can see an example of the Prevision x Recall curve in the next topic (Average Precision). This kind of curve is used by the PASCAL VOC 2012 challenge and is available in our implementation.
 
@@ -68,7 +71,7 @@ A poor object detector needs to increase the number of detected objects (increas
 
 ## Practical hints:
 - you can play with IoU threshold according to your needs. For instance, if the localization is more important for a particular project, then it may be better to increase the IoU threshold (`IoU threshold = 0.8`), Likewise, if the localization is not that much crucial for the implementation, then it is possible to decrease the thresholds (`IoU threshold = 0.3`).
-
+- if your team leader/project manager/client asks you to implement an object detection algorithm, please be sure to ask them whether the **precision** or **recall** is more important for them. Let me guess, you would get the answer: "Oh, both of them are important for us!" :laughing:
 # Object Detection implementations:
 ## Face detection from scratch
 
