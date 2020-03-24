@@ -13,34 +13,6 @@ Because, knowing how to evaluate the trained model would help us to assess the t
 - mostly used in classification problems.
 - we may need additional evaluation metrics (precision, recall, f1-score) depending on the problem.
 
-Let's see some scenarios: 
-
-- binary classification tasks (spam vs not-spam classification). 
-    - we want to evaluate the classification model performance on validation set (with 10 examples). positive class (`1`) indicates the spam whereas negative class (`0`) indicates the not-spam. 
-    - scenario # 1:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - predictions  = `[0, 0, 0, 0, 1, 0, 0, 0, 1, 0]`
-       - accuracy = 80%
-    - scenario # 2:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - predictions  = `[0, 0, 1, 0, 1, 0, 0, 0, 1, 0]`
-       - accuracy = 70%
-    - scenario # 3:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - predictions  = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - accuracy = 100%
-    - scenario # 4:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - predictions  = `[1, 1, 1, 0, 1, 0, 0, 0, 1, 0]`
-       - accuracy = 50%
-    - scenario # 5:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - predictions  = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 1]`
-       - accuracy = 90%
-    - scenario # 6:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - predictions  = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
-       - accuracy = 80%
 
 ## TP, TN, FP, FN
 - most of the evaluation metrics can be defined using these four metrics
@@ -72,6 +44,33 @@ Let's see some scenarios:
 
 <p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/binary_confusion_matrix.png" width="400"></p>
 
+- Binary classification case (say spam vs not-spam classification):
+```
+[[3, 0],
+ [0, 7]]
+TP = 7
+FP = 0
+TN = 3
+FN = 0
+accuracy = 100%
+precision = 1
+recall = 1
+```
+
+- Multi-class classification case
+- gender detection: Female, Male, Both (meaning both female and male exist in the image)
+```
+[[3753  164   79]
+ [ 171 1495   94]
+ [ 173  140  567]]
+
+0.8762808921036769
+              precision    recall  f1-score   support
+
+      Female       0.92      0.94      0.93      3996
+        Male       0.83      0.85      0.84      1760
+        Both       0.77      0.64      0.70       880
+```
 
 ## mAP
 
