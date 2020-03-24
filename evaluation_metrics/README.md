@@ -20,7 +20,7 @@ Because, knowing how to evaluate the trained model would help us to assess the t
     - it is an error (aka, Type-II). Should have been predicted as `positive`
  
 ## Accuracy
-- <img src="https://render.githubusercontent.com/render/math?math=Accuracy = \frac{TP %2B TN}{TP %2B TN %2B FP %2B FN} = \frac{all \enspace correct \enspace predictions}{total \enspace number \enspace of \enspace samples or predictions}"/>
+<img src="https://render.githubusercontent.com/render/math?math=Accuracy = \frac{TP %2B TN}{TP %2B TN %2B FP %2B FN} = \frac{all \enspace correct \enspace predictions}{total \enspace number \enspace of \enspace samples or predictions}"/>
 - the ratio of correctly classified samples to the total number of samples.
 - (# of correct predictions) / (total # of predictions)
 - mostly used in classification problems. However, one may need additional evaluation metrics (precision, recall, f1-score) depending on the problem.
