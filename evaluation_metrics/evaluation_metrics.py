@@ -82,7 +82,7 @@ class NumpyEvaluationMetrics:
     def recall(self, y_true, y_pred, labels=None):
         """
         for each class:
-            recall = tp / (tp + tn)
+            recall = tp / (tp + fn)
             OR
             recall = tp / (total number of positives in y_true)
         """
