@@ -29,7 +29,7 @@
 Building blocks for object detection evaluation metrics:
 - **IoU**: Intersection over Union. IoU measures how well two bounding boxes overlapped. IoU threshold defines if the detected bounding box detection is valid (`True Positive`) or not (`False Positive`). Usually, in most object detection challenges, by default `IoU threshold=0.5`. But this may change by custom projects. 
 
-<p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou.png" width="400"> <em>[pyimagesearch.com](https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/) </em> </p>
+<p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou.png" width="400"> <em>[https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/] </em> </p>
 
 
 <p align="center"><img src="https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/imgs/iou_examples.png" width="400"></p>
