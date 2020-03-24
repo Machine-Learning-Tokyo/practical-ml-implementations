@@ -105,37 +105,37 @@ Accuracy = ?
 - binary classification tasks (spam vs not-spam classification). 
     - we want to evaluate the classification model performance on validation set (with 10 examples). positive class (`1`) indicates the spam whereas negative class (`0`) indicates the not-spam. 
     - scenario # 1:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
+       - groundtruth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 0, 0, 1, 0, 0, 0, 1, 0]`
        - accuracy = 80%
        - precision:
        - recall:
     - scenario # 2:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
+       - groundtruth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 1, 0, 1, 0, 0, 0, 1, 0]`
        - accuracy:
        - precision:
        - recall:
     - scenario # 3:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
+       - groundtruth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - accuracy:
        - precision:
        - recall:
     - scenario # 4:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
+       - groundtruth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions   = `[1, 1, 1, 0, 1, 0, 0, 0, 1, 0]`
        - accuracy:
        - precision:
        - recall:
     - scenario # 5:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
+       - groundtruth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions   = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 1]`
        - accuracy: 
        - precision:
        - recall:
     - scenario # 6:
-       - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
+       - groundtruth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
        - accuracy:
        - precision:
