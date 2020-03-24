@@ -113,31 +113,31 @@ Accuracy = ?
     - scenario # 2:
        - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 1, 0, 1, 0, 0, 0, 1, 0]`
-       - accuracy = 70%
+       - accuracy:
        - precision:
        - recall:
     - scenario # 3:
        - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
-       - accuracy = 100%
+       - accuracy:
        - precision:
        - recall:
     - scenario # 4:
        - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions   = `[1, 1, 1, 0, 1, 0, 0, 0, 1, 0]`
-       - accuracy = 50%
+       - accuracy:
        - precision:
        - recall:
     - scenario # 5:
        - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions   = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 1]`
-       - accuracy = 90%
+       - accuracy: 
        - precision:
        - recall:
     - scenario # 6:
        - ground_truth = `[0, 0, 0, 1, 0, 0, 0, 0, 1, 0]`
        - predictions  = `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`
-       - accuracy = 80%
+       - accuracy:
        - precision:
        - recall:
 
