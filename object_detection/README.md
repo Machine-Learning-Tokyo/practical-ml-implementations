@@ -66,7 +66,9 @@ A poor object detector needs to increase the number of detected objects (increas
 - [sklearn.metrics.precision_recall_curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html)
 <p align="center"> 
     
+- **Average Precision (AP)**: a numerical metric, can also help us compare different detectors. In practice AP is the precision averaged across all recall values between 0 and 1. In other words, averaged precision values across all **confidence score**
 
+- **mean Average Precision (mAP)**: mean of AP for all classes in our dataset. 
 
 ## Benchmark datasets/comptetitions:
 - [PASCAL VOC Challenge](http://host.robots.ox.ac.uk/pascal/VOC/)
