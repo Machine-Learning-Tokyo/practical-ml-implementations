@@ -2,6 +2,8 @@
 A proper evaluation metric for a machine learning algorithm is as important as data preparation and model training. 
 Because, knowing how to evaluate the trained model would help us to assess the trained model, hence choose proper model.
 
+There is no single magic performance metric for all the tasks!
+
 
 ## Accuracy
 - one of the well known evaluation/performance metric.
