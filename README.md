@@ -1,10 +1,10 @@
 # Practical Machine Learning Implementations
-This repository is aimed to gather various practical-machine-learning-implementations.
+This repository gathers various practical machine learning implementations, created by Alisher Abdulkhaev.
 
 ## [Object Detection](https://github.com/Machine-Learning-Tokyo/practical-ml-implementations/blob/master/object_detection/README.md)
 - Brief overview
 - Evaluation metrics
 - Benchmark datasets/competitions
-- Practical hints
+- Practical tips
 - Sample object detection implementations
 
