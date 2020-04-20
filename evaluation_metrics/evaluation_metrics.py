@@ -1,10 +1,11 @@
 import numpy as np
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, precision_recall_curve
+import matplotlib.pyplot as plt
 
 
 class NumpyEvaluationMetrics:
     def __init__(self):
-        self.sklearn_em = SklearnMetrics()
+        pass
 
     def convert_to_numpy_array(self, y_true, y_pred):
         """ convert list arrays to numpy arrays """
@@ -96,16 +97,28 @@ class NumpyEvaluationMetrics:
             recall_scores[ind] = tp / (tp + fn)
         return recall_scores
 
-    def precision_recall_curve(self, y_true, probas_pred):
-        self.sklearn_em.precision_recall_curve(y_true=y_true, probas_pred=probas_pred)
+    def iou(self, bbox1, bbox2):
+        """
+            Source: PyImageSearch
+            reference: https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/
+        """
+        xA = max(bbox1[0], bbox2[0])
+        yA = max(bbox1[1], bbox2[1])
+        xB = min(bbox1[2], bbox2[2])
+        yB = min(bbox1[3], bbox2[3])
+
+        interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1)
+        boxAArea = (bbox1[2] - bbox1[0] + 1) * (bbox1[3] - bbox1[1] + 1)
+        boxBArea = (bbox2[2] - bbox2[0] + 1) * (bbox2[3] - bbox2[1] + 1)
+
+        iou = interArea / float(boxAArea + boxBArea - interArea)
+
+        return iou
 
 
-class SklearnMetrics:
+class SklearnMetrics(NumpyEvaluationMetrics):
     def __init__(self):
-        self.numpy_em = NumpyEvaluationMetrics()
-
-    def tp_fp_tn_fn(self, y_true, y_pred):
-        return self.numpy_em.tp_fp_tn_fn(y_true, y_pred)
+        super(SklearnMetrics, self).__init__()
 
     def accuracy(self, y_true, y_pred):
         return accuracy_score(y_true=y_true, y_pred=y_pred)
@@ -123,6 +136,42 @@ class SklearnMetrics:
 
     def precision_recall_curve(self, y_true, probas_pred):
         return precision_recall_curve(y_true, probas_pred)
+
+    def plot_precision_recall_vs_thresholds(self, precisions, recalls, thresholds, title='', output_file=None):
+        plt.gcf().clear()
+
+        balance_point = np.argmin(np.abs(precisions - recalls))
+        balance_y_axis = precisions[balance_point]
+        balance_x_axis = thresholds[balance_point]
+
+        plt.plot(thresholds, precisions[:-1], 'g--', label='precision')
+        plt.plot(thresholds, recalls[:-1], 'b--', label='recall')
+        fig = plt.gcf()
+        ax = fig.gca()
+
+        balance_circle = plt.Circle((balance_x_axis, balance_y_axis), 0.01, color='r', fill=True, label='balance point')
+        ax.add_artist(balance_circle)
+
+        major_ticks = np.arange(0, 1, 0.1)
+        ax.set_xticks(major_ticks)
+        ax.set_yticks(major_ticks)
+
+        plt.xlabel('Threshold')
+        plt.ylabel('Precision / Recall')
+        plt.legend(loc='lower center')
+        plt.ylim([0, 1])
+        plt.xlim([0, 1])
+
+        title = "Balance point threshold: {} \n ".format(np.round(balance_x_axis, 2)) + title
+
+        plt.title(title)
+        plt.grid(True)
+
+        if output_file is not None:
+            plt.savefig(output_file, dpi=100)
+            plt.gcf().clear()
+        else:
+            return plt
 
 
 y_pred = [1, 1, 1, 0, 1, 0, 0]
