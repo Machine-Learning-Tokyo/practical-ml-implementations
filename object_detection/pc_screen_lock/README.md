@@ -14,3 +14,6 @@
 
 Check [Face Recognition repository]((https://github.com/ageitgey/face_recognition)) for other options (including Docker, pre-configured VM, Nvidia Jetson Nano, Raspberry Pi 2+, etc) to install face_recognition.
 
+## How to run:
+- Store your own face images at `./known-faces/` folder
+- 
