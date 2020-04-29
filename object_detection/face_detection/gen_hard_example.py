@@ -5,7 +5,6 @@ from prepare_data.utils import convert_to_square
 
 sys.path.insert(0, '..')
 import numpy as np
-import argparse
 import os
 import pickle as pickle
 import cv2
@@ -17,19 +16,13 @@ from Detection.MtcnnDetector import MtcnnDetector
 from prepare_data.data_utils import *
 
 
-def save_hard_example(net, data,save_path):
-    # load ground truth from annotation file
-    # format of each line: image/path [x1,y1,x2,y2] for each gt_box in this image
-
+def save_hard_example(net, data, save_path):
     im_idx_list = data['images']
-    # print(images[0])
     gt_boxes_list = data['bboxes']
     num_of_images = len(im_idx_list)
 
     print("processing %d images in total" % num_of_images)
 
-    
-    # save files
     neg_label_file = "../../DATA/no_LM%d/neg_%d.txt" % (net, image_size)
     neg_file = open(neg_label_file, 'w')
 
@@ -38,21 +31,15 @@ def save_hard_example(net, data,save_path):
 
     part_label_file = "../../DATA/no_LM%d/part_%d.txt" % (net, image_size)
     part_file = open(part_label_file, 'w')
-    #read detect result
     det_boxes = pickle.load(open(os.path.join(save_path, 'detections.pkl'), 'rb'))
-    # print(len(det_boxes), num_of_images)
     print(len(det_boxes))
     print(num_of_images)
     assert len(det_boxes) == num_of_images, "incorrect detections or ground truths"
 
-    # index of neg, pos and part face, used as their image names
     n_idx = 0
     p_idx = 0
     d_idx = 0
     image_done = 0
-    #im_idx_list image index(list)
-    #det_boxes detect result(list)
-    #gt_boxes_list gt(list)
     for im_idx, dets, gts in zip(im_idx_list, det_boxes, gt_boxes_list):
         gts = np.array(gts, dtype=np.float32).reshape(-1, 4)
         if image_done % 100 == 0:
@@ -62,7 +49,6 @@ def save_hard_example(net, data,save_path):
         if dets.shape[0] == 0:
             continue
         img = cv2.imread(im_idx)
-        #change to square
         dets = convert_to_square(dets)
         dets[:, 0:4] = np.round(dets[:, 0:4])
         neg_num = 0
@@ -81,12 +67,8 @@ def save_hard_example(net, data,save_path):
             resized_im = cv2.resize(cropped_im, (image_size, image_size),
                                     interpolation=cv2.INTER_LINEAR)
 
-            # save negative images and write label
-            # Iou with all gts must below 0.3            
             if np.max(Iou) < 0.3 and neg_num < 60:
-                #save the examples
-                save_file = get_path(neg_dir, "%s.jpg" % n_idx)
-                # print(save_file)
+                save_file = os.path.join(neg_dir, "%s.jpg" % n_idx)
                 neg_file.write(save_file + ' 0\n')
                 cv2.imwrite(save_file, resized_im)
                 n_idx += 1
@@ -128,54 +110,44 @@ def t_net(prefix, epoch,
              stride=2, slide_window=False, shuffle=False, vis=False):
     detectors = [None, None, None]
     print("Test model: ", test_mode)
-    #PNet-echo
     model_path = ['%s-%s' % (x, y) for x, y in zip(prefix, epoch)]
     print(model_path[0])
-    # load pnet model
     if slide_window:
         PNet = Detector(P_Net, 12, batch_size[0], model_path[0])
     else:
         PNet = FcnDetector(P_Net, model_path[0])
     detectors[0] = PNet
 
-    # load rnet model
     if test_mode in ["RNet", "ONet"]:
         print("==================================", test_mode)
         RNet = Detector(R_Net, 24, batch_size[1], model_path[1])
         detectors[1] = RNet
 
-    # load onet model
     if test_mode == "ONet":
         print("==================================", test_mode)
         ONet = Detector(O_Net, 48, batch_size[2], model_path[2])
         detectors[2] = ONet
         
     basedir = '../../DATA/'
-    #anno_file
     filename = './wider_face_train_bbx_gt.txt'
-    #read anotation(type:dict), include 'images' and 'bboxes'
-    data = read_annotation(basedir,filename)
+    data = read_annotation(basedir, filename)
     mtcnn_detector = MtcnnDetector(detectors=detectors, min_face_size=min_face_size,
                                    stride=stride, threshold=thresh, slide_window=slide_window)
     print("==================================")
-    # 注意是在“test”模式下
-    # imdb = IMDB("wider", image_set, root_path, dataset_path, 'test')
-    # gt_imdb = imdb.gt_imdb()
+
     print('load test data')
     test_data = TestLoader(data['images'])
-    print ('finish loading')
-    #list
-    print ('start detecting....')
-    detections,_ = mtcnn_detector.detect_face(test_data)
-    print ('finish detecting ')
+    print('finish loading')
+    print('start detecting....')
+    detections, _ = mtcnn_detector.detect_face(test_data)
+    print('finish detecting ')
     save_net = 'RNet'
     if test_mode == "PNet":
         save_net = "RNet"
     elif test_mode == "RNet":
         save_net = "ONet"
-    #save detect result
     save_path = os.path.join(data_dir, save_net)
-    print ('save_path is :')
+    print('save_path is :')
     print(save_path)
     if not os.path.exists(save_path):
         os.mkdir(save_path)
@@ -183,7 +155,6 @@ def t_net(prefix, epoch,
     save_file = os.path.join(save_path, "detections.pkl")
     with open(save_file, 'wb') as f:
         pickle.dump(detections, f,1)
-    print("%s测试完成开始OHEM" % image_size)
     save_hard_example(image_size, data, save_path)
 
 
@@ -195,8 +166,7 @@ if __name__ == '__main__':
     if net == "ONet":
         image_size = 48
 
-    base_dir = '../../DATA/WIDER_train'
-    data_dir = '../../DATA/no_LM%s' % str(image_size)
+    data_dir = '/ext/practical-ml-implementations/object_detection/face_detection/data/train/{}'.format(image_size)
     
     neg_dir = os.path.join(data_dir, 'negative')
     pos_dir = os.path.join(data_dir, 'positive')
