@@ -1,13 +1,12 @@
 import numpy as np
-import prepare_data.minibatch
+import minibatch
 import sys
 import cv2
 sys.path.append("../")
-from train_models.MTCNN_config import config
+from config import config
 
 
 class TestLoader:
-    #imdb image_path(list)
     def __init__(self, imdb, batch_size=1, shuffle=False):
         self.imdb = imdb
         self.batch_size = batch_size
@@ -30,8 +29,7 @@ class TestLoader:
 
     def iter_next(self):
         return self.cur + self.batch_size <= self.size
-    #realize __iter__() and next()--->iterator
-    #return iter object
+
     def __iter__(self):
         return self
     

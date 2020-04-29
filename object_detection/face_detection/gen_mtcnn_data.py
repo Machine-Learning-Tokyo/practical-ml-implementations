@@ -336,12 +336,13 @@ def save_hard_example(net, data, save_path):
 
 def t_net(data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode="PNet", min_face_size=25, stride=2):
 
-    prefix = ['../data/MTCNN_model/PNet_No_Landmark/PNet', '../data/MTCNN_model/RNet_No_Landmark/RNet',
-              '../data/MTCNN_model/ONet_No_Landmark/ONet']
+    prefix = '/ext/practical-ml-implementations/object_detection/face_detection/trained_models'
 
     detectors = [None, None, None]
     print("Test model: ", test_mode)
-    model_path = ['%s-%s' % (x, y) for x, y in zip(prefix, epoch)]
+    # model_path = ['%s-%s' % (x, y) for x, y in zip(prefix, epoch)]
+    model_path = ['%s-%s' % (prefix, y) for y in epoch]
+
     print(model_path[0])
     if slide_window:
         PNet = Detector(P_Net, 12, batch_size[0], model_path[0])
