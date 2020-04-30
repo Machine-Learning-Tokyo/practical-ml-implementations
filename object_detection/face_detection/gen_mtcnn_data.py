@@ -4,6 +4,7 @@ import numpy as np
 import numpy.random as npr
 import pickle as pickle
 import cv2
+from config import config
 from mtcnn_model import P_Net, R_Net, O_Net
 from loader import TestLoader
 from detector import Detector
@@ -55,7 +56,7 @@ def gen_12net_data(anno_file, save_dir):
         height, width, channel = img.shape
 
         neg_num = 0
-        while neg_num < 5:
+        while neg_num < 3:
             size = npr.randint(12, min(width, height) / 2)
             nx = npr.randint(0, width - size)
             ny = npr.randint(0, height - size)
@@ -106,8 +107,7 @@ def gen_12net_data(anno_file, save_dir):
                     cv2.imwrite(save_file, resized_im)
                     n_idx += 1
 
-
-            for i in range(100):
+            for i in range(1000):
                 size = npr.randint(int(min(w, h) * 0.8), np.ceil(1.25 * max(w, h)))
 
                 # delta here is the offset of box center
@@ -201,10 +201,10 @@ def gen_imglist_pnet(data_dir):
             f.write(part[i])
 
 
-def gen_24net_data():
+def gen_24net_data(anno_file):
     image_size = 24
 
-    data_dir = '/ext/practical-ml-implementations/object_detection/face_detection/data/train/{}'.format(image_size)
+    data_dir = config.ROOT_DIR + '/data/train/{}'.format(image_size)
 
     neg_dir = os.path.join(data_dir, 'negative')
     pos_dir = os.path.join(data_dir, 'positive')
@@ -214,19 +214,20 @@ def gen_24net_data():
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
-    test_mode = 'RNet'
+    test_mode = 'PNet'
     epoch = [18, 14, 16]
     batch_size = [2048, 256, 16]
+    # batch_size = [32, 16, 8]
     thresh = [0.3, 0.1, 0.7]
     min_face = 20
     stride = 2
     slide_window = False
-    t_net(data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode, min_face, stride)
+    t_net(anno_file, data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode, min_face, stride)
 
 
-def gen_48net_data():
+def gen_48net_data(anno_file):
     image_size = 48
-    data_dir = '/ext/practical-ml-implementations/object_detection/face_detection/data/train/{}'.format(image_size)
+    data_dir = config.ROOT_DIR + '/data/train/{}'.format(image_size)
 
     neg_dir = os.path.join(data_dir, 'negative')
     pos_dir = os.path.join(data_dir, 'positive')
@@ -243,24 +244,25 @@ def gen_48net_data():
     min_face = 20
     stride = 2
     slide_window = False
-    t_net(data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode, min_face, stride)
+    t_net(anno_file, data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode, min_face, stride)
 
 
-def save_hard_example(net, data, save_path):
+def save_hard_example(data, save_path, image_size):
     im_idx_list = data['images']
     gt_boxes_list = data['bboxes']
     num_of_images = len(im_idx_list)
 
     print("processing %d images in total" % num_of_images)
 
-    neg_label_file = "../../DATA/no_LM%d/neg_%d.txt" % (net, image_size)
+    neg_label_file = config.ROOT_DIR + "/data/train/neg_{}.txt".format(image_size)
     neg_file = open(neg_label_file, 'w')
 
-    pos_label_file = "../../DATA/no_LM%d/pos_%d.txt" % (net, image_size)
+    pos_label_file = config.ROOT_DIR + "/data/train/pos_{}.txt".format(image_size)
     pos_file = open(pos_label_file, 'w')
 
-    part_label_file = "../../DATA/no_LM%d/part_%d.txt" % (net, image_size)
+    part_label_file = config.ROOT_DIR + "/data/train/part_{}.txt".format(image_size)
     part_file = open(part_label_file, 'w')
+
     det_boxes = pickle.load(open(os.path.join(save_path, 'detections.pkl'), 'rb'))
     print(len(det_boxes))
     print(num_of_images)
@@ -334,14 +336,15 @@ def save_hard_example(net, data, save_path):
     pos_file.close()
 
 
-def t_net(data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode="PNet", min_face_size=25, stride=2):
+def t_net(anno_file, data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mode="PNet", min_face_size=25, stride=2):
 
-    prefix = '/ext/practical-ml-implementations/object_detection/face_detection/trained_models'
+    prefix = [config.ROOT_DIR + '/trained_models/PNet',
+              config.ROOT_DIR + '/trained_models/RNet',
+              config.ROOT_DIR + '/trained_models/ONet']
 
     detectors = [None, None, None]
     print("Test model: ", test_mode)
-    # model_path = ['%s-%s' % (x, y) for x, y in zip(prefix, epoch)]
-    model_path = ['%s-%s' % (prefix, y) for y in epoch]
+    model_path = ['%s-%s' % (x, y) for x, y in zip(prefix, epoch)]
 
     print(model_path[0])
     if slide_window:
@@ -360,15 +363,13 @@ def t_net(data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mo
         ONet = Detector(O_Net, 48, batch_size[2], model_path[2])
         detectors[2] = ONet
 
-    basedir = '../../DATA/'
-    filename = './wider_face_train_bbx_gt.txt'
-    data = read_annotation(basedir, filename)
+    data = read_annotation(anno_file)
     mtcnn_detector = MtcnnDetector(detectors=detectors, min_face_size=min_face_size,
                                    stride=stride, threshold=thresh, slide_window=slide_window)
     print("==================================")
 
     print('load test data')
-    test_data = TestLoader(data['images'])
+    test_data = TestLoader(data['images'][:10])
     print('finish loading')
     print('start detecting....')
     detections, _ = mtcnn_detector.detect_face(test_data)
@@ -387,7 +388,7 @@ def t_net(data_dir, image_size, epoch, batch_size, thresh, slide_window, test_mo
     save_file = os.path.join(save_path, "detections.pkl")
     with open(save_file, 'wb') as f:
         pickle.dump(detections, f, 1)
-    save_hard_example(image_size, data, save_path)
+    save_hard_example(data, save_path, image_size)
 
 
 

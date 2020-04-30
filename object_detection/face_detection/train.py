@@ -79,16 +79,13 @@ def train(net_factory, prefix, end_epoch, base_dir,
         image_size = 12
         radio_cls_loss = 1.0
         radio_bbox_loss = 0.5
-        radio_landmark_loss = 0.5
     elif net == 'RNet':
         image_size = 24
         radio_cls_loss = 1.0
         radio_bbox_loss = 0.5
-        radio_landmark_loss = 0.5
     else:
         radio_cls_loss = 1.0
         radio_bbox_loss = 0.5
-        radio_landmark_loss = 1
         image_size = 48
 
     input_image = tf.placeholder(tf.float32, shape=[config.BATCH_SIZE, image_size, image_size, 3], name='input_image')

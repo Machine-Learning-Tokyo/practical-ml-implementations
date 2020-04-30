@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 
 
-def read_annotation(base_dir, label_path):
+def read_annotation(label_path):
     data = dict()
     images = []
     bboxes = []
@@ -14,7 +14,7 @@ def read_annotation(base_dir, label_path):
         imagepath = labelfile.readline().strip('\n')
         if not imagepath:
             break
-        imagepath = base_dir + '/WIDER_train/images/' + imagepath
+
         images.append(imagepath)
         nums = labelfile.readline().strip('\n')
         one_image_bboxes = []
